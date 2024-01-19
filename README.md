@@ -1,2 +1,2 @@
 # Radiostyrd-bil
-bil som styrs via radio med en accelerometer
+Bil som styrs trådlöst med handen, COOOLT!!
