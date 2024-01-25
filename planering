@@ -9,4 +9,5 @@ chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://invensense.tdk.com/w
 https://www.electronicwings.com/avr-atmega/mpu6050-gyroscope-accelerometer-temperature-interface-with-atmega16 
 
 Bluewtooth modul: HC-05
-https://www.martyncurrey.com/arduino-with-hc-05-bluetooth-module-at-mode/
+Arduino uno: https://www.martyncurrey.com/arduino-with-hc-05-bluetooth-module-at-mode/
+HC05 - atmega16: https://www.electronicwings.com/avr-atmega/hc-05-bluetooth-module-interfacing-with-atmega1632
