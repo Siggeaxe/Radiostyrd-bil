@@ -11,3 +11,6 @@ https://www.electronicwings.com/avr-atmega/mpu6050-gyroscope-accelerometer-tempe
 Bluewtooth modul: HC-05
 Arduino uno: https://www.martyncurrey.com/arduino-with-hc-05-bluetooth-module-at-mode/
 HC05 - atmega16: https://www.electronicwings.com/avr-atmega/hc-05-bluetooth-module-interfacing-with-atmega1632
+
+Biblotek:
+UART: http://www.peterfleury.epizy.com/doxygen/avr-gcc-libraries/group__pfleury__uart.html
