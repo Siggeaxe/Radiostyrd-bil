@@ -12,6 +12,7 @@ Bluewtooth modul: HC-05
 Datablad HC-05: https://components101.com/sites/default/files/component_datasheet/HC-05%20Datasheet.pdf
 Arduino uno: https://www.martyncurrey.com/arduino-with-hc-05-bluetooth-module-at-mode/
 HC05 - atmega16: https://www.electronicwings.com/avr-atmega/hc-05-bluetooth-module-interfacing-with-atmega1632
+Conncet two HC05: https://howtomechatronics.com/tutorials/arduino/how-to-configure-pair-two-hc-05-bluetooth-module-master-slave-commands/
 
 Biblotek:
 UART: http://www.peterfleury.epizy.com/doxygen/avr-gcc-libraries/group__pfleury__uart.html
