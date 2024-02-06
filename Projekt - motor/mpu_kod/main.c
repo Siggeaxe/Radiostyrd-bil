@@ -72,7 +72,6 @@ ISR(TIMER0_OVF_vect)
   rtc++;
   
   Temp   = (MPU6050_readSensor16(MPU6050_TEMP_OUT_L,  MPU6050_TEMP_OUT_H) + (AVG-1)*Temp)/AVG;
-
   gyroX  = (MPU6050_readSensor16(MPU6050_GYRO_XOUT_L, MPU6050_GYRO_XOUT_H) + (AVG-1)*gyroX)/AVG;
   gyroY  = (MPU6050_readSensor16(MPU6050_GYRO_YOUT_L, MPU6050_GYRO_YOUT_H) + (AVG-1)*gyroY)/AVG;
   gyroZ  = (MPU6050_readSensor16(MPU6050_GYRO_ZOUT_L, MPU6050_GYRO_ZOUT_H) + (AVG-1)*gyroZ)/AVG;
