@@ -24,8 +24,8 @@ DESCRIPTION:
 #endif
 
 /* Define UART buad rate here */
-#define UART_BAUD_RATE      1200      
-#define WORD_SIZE 3
+#define UART_BAUD_RATE 9600      
+#define WORD_SIZE 4
 #define BUFFER_SIZE 32
 
 
@@ -56,18 +56,22 @@ int main(void)
             if ( c & UART_OVERRUN_ERROR ){uart_puts_P("UART Overrun Error: ");} // Overrun Error, i.e. character already present in the UART UDR register was not read fast enough
             if ( c & UART_BUFFER_OVERFLOW ){uart_puts_P("Buffer overflow error: ");} // Overflow error, i.e. We are not reading the receive buffer fast enough
 
-            // uart_putc( (unsigned char)c ); // send received character back
-
+            // Recieved message
             if (c == '\r') {
-              if (k >= 3){
-                word[0] = buffer[k];
-                word[1] = buffer[k - 1];
-                word[2] = buffer[k - 2];
-                word[3] = buffer[k - 3];
-                k = 0;
+              if (k >= WORD_SIZE) // Putts characters in buffer into a word with size: WORD_SIZE
+              {
+                for (uint8_t i = 0; i < WORD_SIZE; i++){
+                  word[i] = buffer[k - i];
                 }
+
+                // Blink LED when message recieved
+                PORTB = 0b00000001;
+                _delay_ms(10);
+                PORTB = 0b00000000;
+                _delay_ms(10);
+              }
             }
-            else
+            else if (c != '\n') // Adds recieved character into buffer
             {
               k++;
               buffer[k] = c;
@@ -77,26 +81,15 @@ int main(void)
               }
             }
 
+            // Optional: Sends back recieved message
             if (c == '\r')
             {
-              // for (uint8_t i = 0; i < WORD_SIZE; i++){
-              //   uart_putc(word[i]);
-              // }
-              // uart_putc('\n');
-              // uart_putc('\r');
-
-              for (uint8_t i = 0; i < WORD_SIZE; i++){
+              uart_puts("Recieved:");
+              for (uint8_t i = 0; i < WORD_SIZE; i++)
+              {
                 uart_putc(word[WORD_SIZE - i - 1]);
               }
-              uart_putc('\n');
-              uart_putc('\r');
-
-              PORTB = 0b00000001;
-              _delay_ms(1000);
-              PORTB = 0b00000000;
-              _delay_ms(1000);
             }
         }
     }
-    
 }
