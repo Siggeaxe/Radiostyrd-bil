@@ -25,7 +25,7 @@ DESCRIPTION:
 
 /* Define UART buad rate here */
 #define UART_BAUD_RATE 9600      
-#define WORD_SIZE 4
+#define WORD_SIZE 4 // Message = 1 word
 #define BUFFER_SIZE 32
 
 
