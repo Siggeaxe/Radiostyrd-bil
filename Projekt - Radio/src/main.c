@@ -1,29 +1,10 @@
-/*************************************************************************
-Title:    Example program for the Interrupt controlled UART library
-Author:   Peter Fleury <pfleury@gmx.ch>   http://tinyurl.com/peterfleury
-File:     $Id: test_uart.c,v 1.7 2015/01/31 17:46:31 peter Exp $
-Software: AVR-GCC 4.x
-Hardware: AVR with built-in UART/USART
-
-DESCRIPTION:
-          This example shows how to use the UART library uart.c
-
-*************************************************************************/
-#include <stdlib.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
-#include <util/delay.h> // external library for time delay functions
+#include <util/delay.h>
 #include "uart.h"
-#include <string.h>
+// #include <stdlib.h>
 
-
-/* define CPU frequency in Hz in Makefile */
-#ifndef F_CPU
-#error "F_CPU undefined, please define CPU frequency in Hz in Makefile"
-#endif
-
-/* Define UART buad rate here */
 #define UART_BAUD_RATE 9600      
 #define WORD_SIZE 4 // Message = 1 word
 #define BUFFER_SIZE 32
@@ -31,19 +12,14 @@ DESCRIPTION:
 
 int main(void)
 {
-    DDRB = 0x00000001;
-    unsigned int c;
+    DDRB = 0x00000001;  // LED
+    unsigned int c; // Recieved Char
     char buffer[BUFFER_SIZE];
     char word[WORD_SIZE];
-    uint8_t k = 0;
+    uint8_t k = 0;  // For position in buffer
 
     uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) ); 
     sei();
-    
-    uart_puts("Hello\n\r");
-
-    uart_putc('C'); uart_putc('O'); uart_putc('O'); uart_putc('L');
-    uart_putc('\n'); uart_putc('\r');
 
     for(;;)
     {
