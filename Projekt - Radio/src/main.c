@@ -1,70 +1,90 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <avr/pgmspace.h>
 #include <util/delay.h>
 #include "uart.h"
-// #include <stdlib.h>
+#include "i2cmaster.h"
+#include "twimaster.c"
+#include <mpu.inc>
+#include <stdio.h>
 
 #define UART_BAUD_RATE 9600      
-#define WORD_SIZE 4 // Message = 1 word
-#define BUFFER_SIZE 32
+#define AVG 8
 
+volatile int32_t accelX=0,accelY=0,accelZ=0;//,Temp=0,gyroX=0,gyroY=0,gyroZ=0;
+volatile int16_t Ax=0, Ay=0, Az=0, right = 0, left = 0;
+volatile uint8_t dir = 0, tempL = 0, tempR = 0;
+
+void get_data(void){
+  accelX = (MPU6050_readSensor16(MPU6050_ACCEL_XOUT_L,MPU6050_ACCEL_XOUT_H) + (AVG-1)*accelX)/AVG;
+  accelY = (MPU6050_readSensor16(MPU6050_ACCEL_YOUT_L,MPU6050_ACCEL_YOUT_H) + (AVG-1)*accelY)/AVG;
+  accelZ = (MPU6050_readSensor16(MPU6050_ACCEL_ZOUT_L,MPU6050_ACCEL_ZOUT_H) + (AVG-1)*accelZ)/AVG;
+}
+
+void scaled_data(){
+  Ax = accelX/128;
+  Ay = accelY/128;
+  Az = accelZ/128;
+}
+
+void init()
+{
+  // DDRB = 0x00000001;  // LED
+  uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) ); 
+  i2c_init();
+  MPU6050_writeSensor(MPU6050_PWR_MGMT_1, 0);
+  sei();
+}
 
 int main(void)
 {
-    DDRB = 0x00000001;  // LED
-    unsigned int c; // Recieved Char
-    char buffer[BUFFER_SIZE];
-    char word[WORD_SIZE];
-    uint8_t k = 0;  // For position in buffer
+  init();
 
-    uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) ); 
-    sei();
+  for(;;)
+  {
+    get_data();
+    scaled_data();
 
-    for(;;)
-    {
-        c = uart_getc();
-        if (c & UART_NO_DATA){} // no data available from UART
-        else // new data available from UART
-        {
-            if (c & UART_FRAME_ERROR){uart_puts_P("UART Frame Error: ");} // Framing Error detected, i.e no stop bit detected
-            if ( c & UART_OVERRUN_ERROR ){uart_puts_P("UART Overrun Error: ");} // Overrun Error, i.e. character already present in the UART UDR register was not read fast enough
-            if ( c & UART_BUFFER_OVERFLOW ){uart_puts_P("Buffer overflow error: ");} // Overflow error, i.e. We are not reading the receive buffer fast enough
-
-            // Recieved message
-            if (c == '\r') {
-              if (k >= WORD_SIZE) // Putts characters in buffer into a word with size: WORD_SIZE
-              {
-                for (uint8_t i = 0; i < WORD_SIZE; i++){
-                  word[i] = buffer[k - i];
-                }
-
-                // Blink LED when message recieved
-                PORTB = 0b00000001;
-                _delay_ms(10);
-                PORTB = 0b00000000;
-                _delay_ms(10);
-              }
-            }
-            else if (c != '\n') // Adds recieved character into buffer
-            {
-              k++;
-              buffer[k] = c;
-              if (k > BUFFER_SIZE)
-              {
-                k = 0;
-              }
-            }
-
-            // Optional: Sends back recieved message
-            if (c == '\r')
-            {
-              uart_puts("Recieved:");
-              for (uint8_t i = 0; i < WORD_SIZE; i++)
-              {
-                uart_putc(word[WORD_SIZE - i - 1]);
-              }
-            }
-        }
+    // Left, right
+    right = (Ax + Ay);
+    left = (Ax - Ay);
+    
+    if (abs(right)>255){
+      right = 255*((right > 0) - (right < 0));
     }
+    if (abs(left)>255){
+      left = 255*((left > 0) - (left < 0));
+    }
+
+    // Direction
+    if (right>=0 && left>=0){
+      dir = 1;
+    }
+    else if (right>=0 && left < 0){
+      dir = 2;
+    }
+    else if(right<0 && left>=0){
+      dir = 4;
+    }
+    else{
+      dir = 8;
+    }
+
+    tempL = abs(left);
+    tempR = abs(right);
+
+    // Code the messages
+    tempL = (tempL >> 2) | 0b10000000;
+    tempR = (tempR >> 2) | 0b01000000;
+    dir = dir | 0b11000000;
+
+    // Send through UART
+    uart_putc(tempR);
+    uart_putc(tempL);
+    uart_putc(dir);
+    uart_putc('\r');
+
+    _delay_ms(10);
+  }
+
+  return 0;
 }
