@@ -1,18 +1,18 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "uart.h"
-#include "i2cmaster.h"
-#include "twimaster.c"
+#include <uart.h>
+#include <i2cmaster.h>
+#include <twimaster.c>
 #include <mpu.inc>
 #include <stdio.h>
+#include <stdlib.h>
 
 #define UART_BAUD_RATE 9600      
 #define AVG 8
 
-volatile int32_t accelX=0,accelY=0,accelZ=0;//,Temp=0,gyroX=0,gyroY=0,gyroZ=0;
-volatile int16_t Ax=0, Ay=0, Az=0, right = 0, left = 0;
-volatile uint8_t dir = 0, tempL = 0, tempR = 0;
+volatile int32_t accelX=0, accelY=0, accelZ=0;
+volatile int16_t Ax=0, Ay=0, right = 0, left = 0;
 
 void get_data(void){
   accelX = (MPU6050_readSensor16(MPU6050_ACCEL_XOUT_L,MPU6050_ACCEL_XOUT_H) + (AVG-1)*accelX)/AVG;
@@ -23,7 +23,9 @@ void get_data(void){
 void scaled_data(){
   Ax = accelX/128;
   Ay = accelY/128;
-  Az = accelZ/128;
+
+  right = (Ax + Ay);
+  left = (Ax - Ay);
 }
 
 void init()
@@ -37,6 +39,8 @@ void init()
 
 int main(void)
 {
+  uint8_t dir = 0, tempL = 0, tempR = 0;
+
   init();
 
   for(;;)
@@ -44,10 +48,7 @@ int main(void)
     get_data();
     scaled_data();
 
-    // Left, right
-    right = (Ax + Ay);
-    left = (Ax - Ay);
-    
+    // Left, right  
     if (abs(right)>255){
       right = 255*((right > 0) - (right < 0));
     }
