@@ -84,7 +84,7 @@ int main(void)
     uart_putc(dir);
     uart_putc('\r');
 
-    _delay_ms(10);
+    _delay_ms(5);
   }
 
   return 0;
