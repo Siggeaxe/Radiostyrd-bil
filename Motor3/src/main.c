@@ -11,14 +11,11 @@
 
 #define AVG 8
 #define UART_BAUD_RATE 9600      
-#define WORD_SIZE 3
-#define BUFFER_SIZE 32
+
 volatile float x_angle=0,y_angle=0;
 volatile int32_t accelX=0,accelY=0,accelZ=0;
 volatile int16_t Ax=0, Ay=0, Az=0;
-volatile char buffer[40], word[WORD_SIZE];
 volatile uint8_t k =0;
-
 
 void init(void){
   //PB 1,2,4,5 - framåt ports
@@ -36,50 +33,9 @@ void init(void){
   TCCR2A = (1 << COM2A1 ) | (0 << COM2A0 ) | (1 << COM2B1 ) | (0 << COM2B0 )
             | (1 << WGM21 ) | (1 << WGM20 );
   TCCR2B = (0 << WGM22 ) | (0 << CS22) | (1 << CS21) | (1 << CS20 );
+
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) ); 
   sei();
-}
-
-void read_data(void){
-  unsigned int c;
-  c = uart_getc();
-  if (c & UART_NO_DATA){} // no data available from UART
-  else // new data available from UART
-  {
-    if (c & UART_FRAME_ERROR){uart_puts_P("UART Frame Error: ");} // Framing Error detected, i.e no stop bit detected
-    if ( c & UART_OVERRUN_ERROR ){uart_puts_P("UART Overrun Error: ");} // Overrun Error, i.e. character already present in the UART UDR register was not read fast enough
-    if ( c & UART_BUFFER_OVERFLOW ){uart_puts_P("Buffer overflow error: ");} // Overflow error, i.e. We are not reading the receive buffer fast enough
-
-    // Recieved message
-    if (c == '\r') {
-      if (k >= WORD_SIZE) // Putts characters in buffer into a word with size: WORD_SIZE
-      {
-        for (uint8_t i = 0; i < WORD_SIZE; i++){
-          word[i] = buffer[k - i];
-        }
-      }
-    }
-    else if (c != '\n') // Adds recieved character into buffer
-    {
-      k++;
-      buffer[k] = c;
-      if (k > BUFFER_SIZE)
-      {
-        k = 0;
-      }
-    }
-
-    // Optional: Sends back recieved message
-    if (c == '\r')
-    {
-      //uart_puts("Recieved:");
-      for (uint8_t i = 0; i < WORD_SIZE; i++)
-      {
-        uart_putc(word[WORD_SIZE - i - 1]);
-      }
-    }
-  }
-    
 }
 
 int main(void){
@@ -94,20 +50,34 @@ int main(void){
   uint8_t right = 0;
   uint8_t left = 0;
   uint8_t direction = 0;
-  while(1){
-    read_data();
+  uint16_t timer = 0;
+  unsigned int c;
 
-    for (int i = 0; i < WORD_SIZE; i++){
-    switch(word[i]&0b11000000){
-      case 0b01000000:
-        right = word[i]<<2;
-        break;
-      case 0b10000000:
-        left = word[i]<<2;
-        break;
-      case 0b11000000:
-        direction = word[i]&0b00000111;
-        break;
+  while(1){
+    c = uart_getc();
+
+    if (c & UART_NO_DATA){  // no data available from UART (lower byte: received byte from ringbuffer, 
+                            // higher byte: last receive status. Om du inte fattar holla på Peter Fleury:s UART dokummentation!!!)
+      if (timer >= 500){
+        right = 0;
+        left = 0;
+        direction = 0;
+      }
+      else{timer++;}
+      _delay_ms(1);      
+    }
+    else{
+      timer = 0;
+      switch(c & 0b11000000){
+        case 0b01000000:
+          right = c<<2;
+          break;
+        case 0b10000000:
+          left = c<<2;
+          break;
+        case 0b11000000:
+          direction = c & 0b00000111;
+          break;
       }
     }
 
@@ -133,6 +103,6 @@ int main(void){
 
     OCR2A = left;
     OCR2B = left;
-    _delay_ms(5);
+
   }
 }

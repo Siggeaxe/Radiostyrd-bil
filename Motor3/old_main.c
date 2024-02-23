@@ -133,6 +133,7 @@ int main(void){
 
     OCR2A = left;
     OCR2B = left;
+    
     _delay_ms(5);
   }
 }
