@@ -21,8 +21,8 @@ void get_data(void){
 }
 
 void scaled_data(){
-  Ax = accelX/128;
-  Ay = accelY/128;
+  Ax = accelX/64;
+  Ay = accelY/64;
 
   right = (Ax + Ay);
   left = (Ax - Ay);

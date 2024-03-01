@@ -28,11 +28,11 @@ void init(void){
   // setting up TIMER0
   TCCR0A = (1 << COM0A1 ) | (0 << COM0A0 ) | (1 << COM0B1 ) | (0 << COM0B0 )
             | (1 << WGM01 ) | (1 << WGM00 );
-  TCCR0B = (0 << WGM02 ) | (0 << CS02) | (1 << CS01) | (1 << CS00 );
+  TCCR0B = (0 << WGM02 ) | (1 << CS02) | (0 << CS01) | (1 << CS00 );
 
   TCCR2A = (1 << COM2A1 ) | (0 << COM2A0 ) | (1 << COM2B1 ) | (0 << COM2B0 )
             | (1 << WGM21 ) | (1 << WGM20 );
-  TCCR2B = (0 << WGM22 ) | (0 << CS22) | (1 << CS21) | (1 << CS20 );
+  TCCR2B = (0 << WGM22 ) | (1 << CS22) | (0 << CS21) | (1 << CS20 );
 
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) ); 
   sei();
