@@ -8,4 +8,6 @@ Trådlös teknologi är en central del av vår vardag. Genom att använda enkaps
 
 | Bilen med kretsen kopplad på prototypbrädor driven av 8 stycken AA-batterier, monterat på ett plast-chassi |
 | ---           |
-| ![alt text](https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Bil2.jpg) |
+| <img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Bil2.jpg" width=50% height=50%> |
+
+
