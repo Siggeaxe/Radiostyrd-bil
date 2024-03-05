@@ -1,5 +1,0 @@
-Jacob Todo list:
-Kolla med frekvensgenerator hur motorn reagerar - ISR med XOR med en 1a i position och 0or i övrigt
-Läs igenom accelirometerns datablad
-Implementera accelirometern
-implementera PWM på fler portar, kolla hur många timers som finns
