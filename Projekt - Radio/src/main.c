@@ -41,8 +41,8 @@ void init()
   //reset watchdog
   wdt_reset();
   //set up WDT interrupt
-  WDTCSR = (1<<WDCE)|(1<<WDE) | (0<<WDIE)|(0<<WDP3)
-          | (1<<WDP2) | (0<<WDP1) | (1<<WDP0);
+  WDTCSR = (1<<WDCE) | (1<<WDE) |(0<<WDIE) | (0<<WDP3)
+          | (0<<WDP2) | (1<<WDP1) | (1<<WDP0);
   //Enable global interrupts
   sei();
 }
