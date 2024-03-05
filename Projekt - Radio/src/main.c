@@ -7,6 +7,8 @@
 #include <mpu.inc>
 #include <stdio.h>
 #include <stdlib.h>
+#include <avr/interrupt.h>
+#include <avr/wdt.h>        
 
 #define UART_BAUD_RATE 9600      
 #define AVG 8
@@ -34,6 +36,14 @@ void init()
   uart_init( UART_BAUD_SELECT(UART_BAUD_RATE,F_CPU) ); 
   i2c_init();
   MPU6050_writeSensor(MPU6050_PWR_MGMT_1, 0);
+  
+  cli();
+  //reset watchdog
+  wdt_reset();
+  //set up WDT interrupt
+  WDTCSR = (1<<WDCE)|(1<<WDE) | (0<<WDIE)|(0<<WDP3)
+          | (1<<WDP2) | (0<<WDP1) | (1<<WDP0);
+  //Enable global interrupts
   sei();
 }
 
@@ -45,6 +55,7 @@ int main(void)
 
   for(;;)
   {
+    wdt_reset();
     get_data();
     scaled_data();
 
