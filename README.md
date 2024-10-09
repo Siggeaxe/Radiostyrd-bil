@@ -1,5 +1,7 @@
 # Radiostyrd-bil
-Trådlös teknologi är en central del av vår vardag. Genom att använda enkapseldatorer för att trådlöst styra och övervaka olika system har vi skapat en värld full av möjligheter. För att utforska detta närmare ska vi bygga en radiostyrd bil. Den kommer att styras trådlöst från en accelerometer som känner av användarens handrörelser. Informationen från accelerometern skickas sedan trådlöst via bluetooth till bilen, där enkapseldatorer använder den för att styra bilens motorer. Målet med att bygga och utforska denna bil är att vi ska få en djupare förståelse för trådlös kommunikation och styrning.
+Ett projektarbete där vi byggde en radiostyrd bil som styrs med handrörelser!
+
+Handens lutning mäts med en så kallad "Inertial Measurement Unit" av modellen MPU6050, som består av gyroskop och accelerometer. Med hjälp av accelerometerns mätning av gravitationen kan handens vinkel beräknas med trigonometri. Mikrokontrollern av modellen Atmega328p konverterar vinkeln till styrsignaler som skickas till bilen med en Bluetooth-modul, där en H-brygga driver bilens fyra motorer.
 
 | Kretschema av bilen | kretschema av kontrollern  | 
 | ---           | ---           |                                                                                                                                                   
