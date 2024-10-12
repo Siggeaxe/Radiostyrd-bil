@@ -1,7 +1,7 @@
-# Radiostyrd-bil
-Ett projektarbete där vi byggde en radiostyrd bil som styrs med handrörelser!
+# Radiostyrd bil!
+Ett projektarbete där vi byggde en radiostyrd bil som styrs med handrörelser.
 
-Handens lutning mäts med en så kallad "Inertial Measurement Unit" av modellen MPU6050, som består av gyroskop och accelerometer. Med hjälp av accelerometerns mätning av gravitationen kan handens vinkel beräknas med trigonometri. Mikrokontrollern av modellen Atmega328p konverterar vinkeln till styrsignaler som skickas till bilen med en Bluetooth-modul, där en H-brygga driver bilens fyra motorer.
+Handens lutning mäts med en så kallad "Inertial Measurement Unit" av modellen MPU6050, som består av ett gyroskop och en accelerometer. Med hjälp av accelerometerns mätning av jordens gravitation kan handens vinkel beräknas med trigonometri. Mikrokontrollern av modellen Atmega328p konverterar sedan vinkeln till styrsignaler som skickas till bilen via en Bluetooth-modul, där en H-brygga driver bilens fyra motorer.
 
 | Kretschema av bilen | kretschema av kontrollern  | 
 | ---           | ---           |                                                                                                                                                   
