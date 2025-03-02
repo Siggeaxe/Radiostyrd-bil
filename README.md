@@ -7,14 +7,14 @@ The glove remote determines the user’s hand orientation (attitude) using an MP
 
 The control signals are wirelessly transmitted via Bluetooth to the car, where they are received and interpreted to adjust motor speed and direction. The car’s propulsion system consists of an H-bridge motor driver, which regulates power to the four independent wheel motors, allowing smooth and precise movement.  
 
-| Kontrollerkretsen monterad på en prototypbräda med en röd LED som indikerar anslutning till bilen | Kontrollerkretsen monterad på en handske  | 
-| ---           | ---           |                                                                                                                                                   
-| <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Kontroller.jpg" width="78%"></div> | <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Kontroller_handske.jpg" width="70%"></div> |
+| The controller circuit mounted on a prototype board with a red LED indicating connection to the car | The controller circuit mounted on a glove |  
+| --- | --- |  
+| <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Kontroller.jpg" width="78%"></div> | <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Kontroller_handske.jpg" width="70%"></div> |  
 
-| Bilen med kretsen kopplad på prototypbrädor driven av 8 stycken AA-batterier, monterad på ett plastchassi |
-| ---           |
-| <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Bil2.jpg" width="50%"></div> |
+| The car with the circuit connected on prototype boards, powered by eight AA batteries, mounted on a plastic chassis |  
+| --- |  
+| <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Bil2.jpg" width="50%"></div> |  
 
-| Kretschema av bilen | Kretschema av kontrollern  | 
-| ---           | ---           |                                                                                                                                                   
-| <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Motorstyrning_kretsschema.png" width="78%"></div> | <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Styrning_kretsschema.png" width="80%"></div> |
+| Circuit diagram of the car | Circuit diagram of the controller |  
+| --- | --- |  
+| <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Motorstyrning_kretsschema.png" width="78%"></div> | <div align="center"><img src="https://github.com/Siggeaxe/Radiostyrd-bil/blob/main/Bilder/Styrning_kretsschema.png" width="80%"></div> |  
