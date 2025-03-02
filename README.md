@@ -1,7 +1,11 @@
-# Radiostyrd bil!
-Ett projektarbete där vi byggde en radiostyrd bil som styrs med handrörelser.
+# Remote-Controlled Hand-Gesture Operated Car!
 
-Handens lutning mäts med en så kallad "Inertial Measurement Unit" av modellen MPU6050, som består av ett gyroskop och en accelerometer. Med hjälp av accelerometerns mätning av jordens gravitation kan handens vinkel beräknas med trigonometri. Mikrokontrollern av modellen Atmega328p konverterar sedan vinkeln till styrsignaler som skickas till bilen via en Bluetooth-modul, där en H-brygga driver bilens fyra motorer.
+This project showcases a wirelessly controlled car operated through a glove-mounted remote that translates hand movements into driving commands.
+
+### How It Works  
+The glove remote determines the user’s hand orientation (attitude) using an MPU6050 Inertial Measurement Unit (IMU), which consists of a gyroscope and accelerometer. The accelerometer measures Earth's gravity to estimate the glove’s tilt angle using trigonometry. These calculated angles are then processed by an Atmega328p microcontroller, which converts them into control signals.  
+
+The control signals are wirelessly transmitted via Bluetooth to the car, where they are received and interpreted to adjust motor speed and direction. The car’s propulsion system consists of an H-bridge motor driver, which regulates power to the four independent wheel motors, allowing smooth and precise movement.  
 
 | Kretschema av bilen | Kretschema av kontrollern  | 
 | ---           | ---           |                                                                                                                                                   
